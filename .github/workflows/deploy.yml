@@ -26,13 +26,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
 
       - name: Build production app
         run: npm run build
+
+      - name: Ensure CNAME in dist
+        run: |
+          if [ -f public/CNAME ]; then
+            cp public/CNAME dist/CNAME
+          elif [ -f CNAME ]; then
+            cp CNAME dist/CNAME
+          else
+            echo "bharatdarshan.online" > dist/CNAME
+          fi
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
