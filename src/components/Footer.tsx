@@ -277,13 +277,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-slate-800 text-[11px] text-slate-400 leading-relaxed text-center space-y-2">
-          <p>
-            Notice: Travel information, verified transport timetables, ticket estimates and seasonal package prices are subject to change based on weather conditions, seasonal demand, and official administrative advisories. Bharat Darshan is an independent tourism discovery and enquiry platform.
-          </p>
-          <p className="text-[10px] text-slate-400 font-mono select-all">
-            google.com, pub-8528510551006901, DIRECT, f08c47fec0942fa0
-          </p>
+        <div className="mt-4 pt-4 border-t border-slate-800 text-[11px] text-slate-400 leading-relaxed text-center">
+          Notice: Travel information, verified transport timetables, ticket estimates and seasonal package prices are subject to change based on weather conditions, seasonal demand, and official administrative advisories. Bharat Darshan is an independent tourism discovery and enquiry platform.
         </div>
       </div>
     </footer>
