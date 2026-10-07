@@ -1,0 +1,6 @@
+{
+  "name": "Bharat Darshan - India Travel & Tour Packages",
+  "description": "Discover India, plan your journey, and explore curated tour packages across India's top destinations and spiritual heritage circuits.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
