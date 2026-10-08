@@ -21,7 +21,8 @@ import { PrivacyPolicy, Terms, Disclaimer, CookiePolicy } from './pages/Legal';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
-    return window.location.pathname || '/';
+    const path = window.location.pathname || '/';
+    return path.length > 1 ? path.replace(/\/+$/, '') : path;
   });
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -32,15 +33,17 @@ export default function App() {
   // Handle browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      const path = window.location.pathname || '/';
+      setCurrentPath(path.length > 1 ? path.replace(/\/+$/, '') : path);
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const navigateTo = (path: string) => {
-    window.history.pushState({}, '', path);
-    setCurrentPath(path);
+    const cleanPath = path.length > 1 ? path.replace(/\/+$/, '') : path;
+    window.history.pushState({}, '', cleanPath);
+    setCurrentPath(cleanPath);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -52,8 +55,10 @@ export default function App() {
 
   // Route parser
   const renderRoute = () => {
+    const path = currentPath.length > 1 ? currentPath.replace(/\/+$/, '') : (currentPath || '/');
+
     // Exact routes
-    if (currentPath === '/' || currentPath === '') {
+    if (path === '/' || path === '') {
       return (
         <Home
           onNavigate={navigateTo}
@@ -64,7 +69,7 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/destinations') {
+    if (path === '/destinations') {
       return (
         <Destinations
           onSelectDestination={(slug) => navigateTo(`/destinations/${slug}`)}
@@ -72,8 +77,8 @@ export default function App() {
       );
     }
 
-    if (currentPath.startsWith('/destinations/')) {
-      const slug = currentPath.replace('/destinations/', '').replace(/\/$/, '');
+    if (path.startsWith('/destinations/')) {
+      const slug = path.replace('/destinations/', '');
       return (
         <DestinationDetails
           slug={slug}
@@ -84,7 +89,7 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/packages') {
+    if (path === '/packages') {
       return (
         <Packages
           onSelectPackage={(slug) => navigateTo(`/packages/${slug}`)}
@@ -93,8 +98,8 @@ export default function App() {
       );
     }
 
-    if (currentPath.startsWith('/packages/')) {
-      const slug = currentPath.replace('/packages/', '').replace(/\/$/, '');
+    if (path.startsWith('/packages/')) {
+      const slug = path.replace('/packages/', '');
       return (
         <PackageDetails
           slug={slug}
@@ -104,7 +109,7 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/categories') {
+    if (path === '/categories') {
       return (
         <Categories
           onSelectCategory={(slug) => {
@@ -118,7 +123,7 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/categories/religious-tours') {
+    if (path === '/categories/religious-tours') {
       return (
         <ReligiousTours
           onSelectDestination={(slug) => navigateTo(`/destinations/${slug}`)}
@@ -127,8 +132,8 @@ export default function App() {
       );
     }
 
-    if (currentPath.startsWith('/categories/')) {
-      const catSlug = currentPath.replace('/categories/', '').replace(/\/$/, '');
+    if (path.startsWith('/categories/')) {
+      const catSlug = path.replace('/categories/', '');
       return (
         <Destinations
           initialCategory={catSlug}
@@ -137,12 +142,12 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/states') {
+    if (path === '/states') {
       return <States onSelectState={(slug) => navigateTo(`/states/${slug}`)} />;
     }
 
-    if (currentPath.startsWith('/states/')) {
-      const slug = currentPath.replace('/states/', '').replace(/\/$/, '');
+    if (path.startsWith('/states/')) {
+      const slug = path.replace('/states/', '');
       return (
         <StateDetails
           slug={slug}
@@ -152,7 +157,7 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/about') {
+    if (path === '/about') {
       return (
         <About
           onNavigate={navigateTo}
@@ -161,23 +166,23 @@ export default function App() {
       );
     }
 
-    if (currentPath === '/contact') {
+    if (path === '/contact') {
       return <Contact />;
     }
 
-    if (currentPath === '/privacy-policy') {
+    if (path === '/privacy-policy') {
       return <PrivacyPolicy />;
     }
 
-    if (currentPath === '/terms-and-conditions') {
+    if (path === '/terms-and-conditions') {
       return <Terms />;
     }
 
-    if (currentPath === '/disclaimer') {
+    if (path === '/disclaimer') {
       return <Disclaimer />;
     }
 
-    if (currentPath === '/cookie-policy') {
+    if (path === '/cookie-policy') {
       return <CookiePolicy />;
     }
 
